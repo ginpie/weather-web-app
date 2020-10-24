@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 
+import getCity from "../../../apis/getCity";
+
 const back =
   "https://images.unsplash.com/photo-1524820197278-540916411e20?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1372&q=80";
 
@@ -35,9 +37,7 @@ const City = styled.div`
 
 const Area = styled.p`
   font-size: 12px;
-  margin: 0;
-  grid-row: 2;
-  grid-column: 2;
+  margin: 0 6px 0 0;
 `;
 
 const IconLoc = styled.i`
@@ -51,11 +51,28 @@ const IconLoc = styled.i`
   grid-column: 1;
 `;
 
+const Wrapper = styled.div`
+  height: 20px;
+  grid-row: 2;
+  grid-column: 2;
+  display: flex;
+  align-items: center;
+`;
+
 const Text = styled.div`
   color: #000;
   font-weight: 500;
   grid-row: 1;
   grid-column: 2;
+  display: flex;
+  align-items: center;
+`;
+
+const Flag = styled.img`
+  width: 20px;
+  grid-row: 2;
+  grid-column: 1;
+  align-self: top;
 `;
 
 const Map = styled.div`
@@ -63,30 +80,50 @@ const Map = styled.div`
   height: 50px;
 `;
 
-const Today = ({ city }) => (
-  <Container
-    style={{
-      background: `url(${back})`,
-      backgroundSize: "cover",
-      backgroundPosition: "center",
-    }}
-  >
-    <Box>
-      <City>
-        <IconLoc className="fas fa-map-marker-alt" />
-        <Text>Sydney</Text>
-        <Area>City in Australia</Area>
-      </City>
+class Today extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
 
-      <Map
+  componentDidMount() {
+    getCity(
+      document.getElementById("myCity"),
+      document.getElementById("myCountry"),
+      document.getElementById("myFlag")
+    );
+  }
+
+  render() {
+    return (
+      <Container
         style={{
-          background: `url(${map})`,
+          background: `url(${back})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
-      />
-    </Box>
-  </Container>
-);
+      >
+        <Box>
+          <City>
+            <IconLoc className="fas fa-map-marker-alt" />
+            <Text id="myCity"></Text>
+            <Wrapper>
+              <Area id="myCountry"></Area>
+              <Flag id="myFlag" />
+            </Wrapper>
+          </City>
+
+          <Map
+            style={{
+              background: `url(${map})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
+          />
+        </Box>
+      </Container>
+    );
+  }
+}
 
 export default Today;

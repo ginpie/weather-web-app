@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 
+import getLocalWeather from "../../../apis/getLocalWeather";
+
 const dark = "#0270c2";
 const light = "#1fa1f1";
 
@@ -79,20 +81,33 @@ const Side2 = styled.div`
   clip-path: polygon(0% 0%, 0% 15%, 2% 8%, 5% 5%, 8% 2%, 15% 0%);
 `;
 
-const Clip = ({ icon, weather, temp }) => (
-  <Container>
-    <Side1 />
-    <Box>
-      <Weather>
-        <Icon src="https://res.cloudinary.com/dr99oorie/image/upload/v1603428277/weather-app%20assets/iconfinder_weather-02_1530391_lqsvis.svg" />
-        <Text>Sunny</Text>
-      </Weather>
-      <Temp>
-        <TempText>31</TempText>
-      </Temp>
-    </Box>
-    <Side2 />
-  </Container>
-);
+class Clip extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { icon: null, weather: null, temp: null };
+  }
+
+  componentDidMount() {
+    getLocalWeather(document.getElementById("myWeather"));
+  }
+
+  render() {
+    return (
+      <Container>
+        <Side1 />
+        <Box>
+          <Weather>
+            <Icon src="https://res.cloudinary.com/dr99oorie/image/upload/v1603428277/weather-app%20assets/iconfinder_weather-02_1530391_lqsvis.svg" />
+            <Text id="myWeather" />
+          </Weather>
+          <Temp>
+            <TempText id="myTemp" />
+          </Temp>
+        </Box>
+        <Side2 />
+      </Container>
+    );
+  }
+}
 
 export default Clip;
