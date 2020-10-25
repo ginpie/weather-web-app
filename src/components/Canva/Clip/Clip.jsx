@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import getLocalWeather from "../../../apis/getLocalWeather";
+import getDataByGeo from "../../../apis/getDataByGeo";
 
 const dark = "#0270c2";
 const light = "#1fa1f1";
@@ -47,7 +47,7 @@ const Text = styled.p`
 const TempText = styled.p`
   width: 120px;
   height: 95px;
-  font-size: 50px;
+  font-size: 30px;
   color: #fff;
   margin: 0;
   font-family: "Oswald", sans-serif;
@@ -88,7 +88,25 @@ class Clip extends React.Component {
   }
 
   componentDidMount() {
-    getLocalWeather(document.getElementById("myWeather"));
+    window.addEventListener("load", () => {
+      let long;
+      let lat;
+
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((position) => {
+          long = position.coords.longitude;
+          lat = position.coords.latitude;
+
+          getDataByGeo(long, lat).then((data) => {
+            document.getElementById("myWeather").innerHTML =
+              data.weather[0].main;
+            document.getElementById("myTemp").innerHTML = Math.round(
+              Number(data.main.temp) - 273.15
+            );
+          });
+        });
+      }
+    });
   }
 
   render() {

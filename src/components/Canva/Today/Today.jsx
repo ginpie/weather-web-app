@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import getCity from "../../../apis/getCity";
+import getDataByGeo from "../../../apis/getDataByGeo";
 
 const back =
   "https://images.unsplash.com/photo-1524820197278-540916411e20?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1372&q=80";
@@ -87,11 +87,28 @@ class Today extends React.Component {
   }
 
   componentDidMount() {
-    getCity(
-      document.getElementById("myCity"),
-      document.getElementById("myCountry"),
-      document.getElementById("myFlag")
-    );
+    window.addEventListener("load", () => {
+      let long;
+      let lat;
+
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((position) => {
+          long = position.coords.longitude;
+          lat = position.coords.latitude;
+
+          getDataByGeo(long, lat).then((data) => {
+            document.getElementById("myCity").innerHTML = data.name;
+            document.getElementById("myCountry").innerHTML = data.sys.country;
+            document
+              .getElementById("myFlag")
+              .setAttribute(
+                "src",
+                "https://www.countryflags.io/au/flat/64.png"
+              );
+          });
+        });
+      }
+    });
   }
 
   render() {

@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 import CardSmall from "./CardSmall";
+import get7ForecastByCity from "../../../apis/get7ForecastByCity";
 import weatherData from "./weatherData";
 
 const Container = styled.section`
@@ -20,27 +21,46 @@ const Title = styled.h3`
 
 const Body = styled.div``;
 
-const ThreeDays = () => (
-  <Container>
-    <Title>
-      <b>3 Days</b> Forecast
-    </Title>
-    <Body>
-      {weatherData.map((i, e) => {
-        return (
-          <CardSmall
-            icon={i.icon}
-            date={i.date}
-            weather={i.weather}
-            tempMax={i.tempMax}
-            tempMin={i.tempMin}
-            bg={i.bg}
-            key={e}
-          />
-        );
-      })}
-    </Body>
-  </Container>
-);
+class ThreeDays extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      day1: null,
+      day2: null,
+      day3: null,
+    };
+  }
+
+  componentDidMount() {
+    get7ForecastByCity("beijing").then((data) => {
+      this.setState({ day1: data.daily[0].weather[0].main });
+    });
+  }
+
+  render() {
+    return (
+      <Container>
+        <Title>
+          <b>3 Days</b> Forecast
+        </Title>
+        <Body>
+          {weatherData.map((i, e) => {
+            return (
+              <CardSmall
+                icon={i.icon}
+                date={i.date}
+                weather={i.weather}
+                tempMax={i.tempMax}
+                tempMin={i.tempMin}
+                bg={i.bg}
+                key={e}
+              />
+            );
+          })}
+        </Body>
+      </Container>
+    );
+  }
+}
 
 export default ThreeDays;
