@@ -101,29 +101,56 @@ const VerticalDividerL = styled.div`
   background: #aaa;
 `;
 
-const CardMedium = ({ icon, hum, wind, speed, temp, city, country }) => (
-  <Container>
-    <IconBox>
-      <Icon src={icon} />
-    </IconBox>
+const CardMedium = ({ icon, hum, wind, speed, temp, city, country }) => {
+  let windDirection;
+  if (wind >= 338 && wind <= 22) {
+    windDirection = "North";
+  }
+  if (wind >= 23 && wind <= 67) {
+    windDirection = "Northeast";
+  }
+  if (wind >= 68 && wind <= 112) {
+    windDirection = "East";
+  }
+  if (wind >= 113 && wind <= 157) {
+    windDirection = "Southeast";
+  }
+  if (wind >= 158 && wind <= 202) {
+    windDirection = "South";
+  }
+  if (wind >= 203 && wind <= 247) {
+    windDirection = "Southwest";
+  }
+  if (wind >= 248 && wind <= 292) {
+    windDirection = "West";
+  }
+  if (wind >= 293 && wind <= 337) {
+    windDirection = "Northwest";
+  }
+  return (
+    <Container>
+      <IconBox>
+        <Icon src={icon} />
+      </IconBox>
 
-    <TextBox>
-      <Temp>{temp}</Temp>
-      <VerticalDividerL />
-      <CityBox>
-        <City>{city}</City>
-        <Country>{country}</Country>
-      </CityBox>
-    </TextBox>
+      <TextBox>
+        <Temp>{temp}</Temp>
+        <VerticalDividerL />
+        <CityBox>
+          <City>{city}</City>
+          <Country>{country}</Country>
+        </CityBox>
+      </TextBox>
 
-    <WindBox>
-      <Text>Humidity: {hum}</Text>
-      <VerticalDivider />
-      <Text>{wind}</Text>
-      <VerticalDivider />
-      <Text>{speed}km/h</Text>
-    </WindBox>
-  </Container>
-);
+      <WindBox>
+        <Text>Humidity: {hum}%</Text>
+        <VerticalDivider />
+        <Text>{windDirection}</Text>
+        <VerticalDivider />
+        <Text>{speed}km/h</Text>
+      </WindBox>
+    </Container>
+  );
+};
 
 export default CardMedium;
