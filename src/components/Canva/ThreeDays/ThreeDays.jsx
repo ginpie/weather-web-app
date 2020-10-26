@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import CardSmall from "./CardSmall";
 import get7ForecastByCity from "../../../apis/get7ForecastByCity";
-import weatherData from "./weatherData";
+import weatherIcon from "../../../apis/weatherIcon";
 
 const Container = styled.section`
   background-color: #fff;
@@ -25,15 +25,27 @@ class ThreeDays extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      day1: null,
-      day2: null,
-      day3: null,
+      days: [],
     };
   }
 
   componentDidMount() {
-    get7ForecastByCity("beijing").then((data) => {
-      this.setState({ day1: data.daily[0].weather[0].main });
+    get7ForecastByCity("los angeles").then((data) => {
+      const tempDays = [data.daily[0], data.daily[1], data.daily[2]];
+
+      tempDays.forEach((i) => {
+        // convert unix utc dt to local date
+        const date = new Date(i.dt * 1e3);
+        const options = { weekday: "long" };
+        const localdate = new Intl.DateTimeFormat("en-US", options).format(
+          date
+        );
+        i.localdt = localdate;
+        // get icon by weather
+      });
+      this.setState({
+        days: tempDays,
+      });
     });
   }
 
@@ -44,15 +56,15 @@ class ThreeDays extends React.Component {
           <b>3 Days</b> Forecast
         </Title>
         <Body>
-          {weatherData.map((i, e) => {
+          {this.state.days.map((i, e) => {
             return (
               <CardSmall
-                icon={i.icon}
-                date={i.date}
-                weather={i.weather}
-                tempMax={i.tempMax}
-                tempMin={i.tempMin}
-                bg={i.bg}
+                icon={weatherIcon.get(i.weather[0].main)}
+                date={i.localdt}
+                weather={i.weather[0].main}
+                tempMax={Math.round(i.temp.max - 273.15)}
+                tempMin={Math.round(i.temp.min - 273.15)}
+                bg={e === 0 ? "#0aa9ee" : "#dee6f4"}
                 key={e}
               />
             );

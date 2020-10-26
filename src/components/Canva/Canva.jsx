@@ -10,8 +10,8 @@ const Container = styled.div`
   width: 100%;
   height: 100%;
   display: grid;
-  grid-template-columns: repeat(3, 1fr) 1.5fr 0.1fr;
-  gap: 20px 40px;
+  grid-template-columns: 1.2fr repeat(2, 1fr) 1.5fr 0.1fr;
+  gap: 20px 30px;
   grid-template-rows: repeat(4, 23%);
 `;
 

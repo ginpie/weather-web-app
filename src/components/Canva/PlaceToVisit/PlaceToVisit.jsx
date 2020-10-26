@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 import CardPlace from "./CardPlace";
 import { placeData } from "./placeData";
+import getPlaceByGeo from "../../../apis/getPlaceByGeo";
 
 const Container = styled.section`
   background-color: #fff;
@@ -27,17 +28,56 @@ const Body = styled.div`
   gap: 10px;
 `;
 
-const PlaceToVisit = () => (
-  <Container>
-    <Title>
-      <b>Place to</b> Visit
-    </Title>
-    <Body>
-      {placeData.map((i, e) => {
-        return <CardPlace bg={i.bg} text={i.text} grid={i.grid} key={e} />;
-      })}
-    </Body>
-  </Container>
-);
+class PlaceToVisit extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { myPlaces: [] };
+  }
+
+  componentDidMount() {
+    window.addEventListener("load", () => {
+      let long;
+      let lat;
+
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((position) => {
+          long = position.coords.longitude;
+          lat = position.coords.latitude;
+
+          getPlaceByGeo(long, lat).then((data) => {
+            let a = [];
+            const temp = data.features;
+            temp.slice(Math.max(temp.length - 3, 0)).forEach((i) => {
+              a.push(i.properties.name);
+            });
+            this.setState({ myPlaces: a });
+          });
+        });
+      }
+    });
+  }
+
+  render() {
+    return (
+      <Container>
+        <Title>
+          <b>Place to</b> Visit
+        </Title>
+        <Body>
+          {this.state.myPlaces.map((i, e) => {
+            return (
+              <CardPlace
+                bg={placeData[e].bg}
+                text={i}
+                grid={placeData[e].grid}
+                key={e}
+              />
+            );
+          })}
+        </Body>
+      </Container>
+    );
+  }
+}
 
 export default PlaceToVisit;

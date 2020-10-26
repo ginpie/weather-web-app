@@ -2,15 +2,13 @@ import React from "react";
 import styled from "styled-components";
 
 import getDataByGeo from "../../../apis/getDataByGeo";
-
-const back =
-  "https://images.unsplash.com/photo-1524820197278-540916411e20?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1372&q=80";
+import getImageByCity from "../../../apis/getImageByCity";
 
 const map =
   "https://res.cloudinary.com/dr99oorie/image/upload/v1603434915/weather-app%20assets/iconfinder_opera_house_sydney_house_australia_architecture_landmark_travel_building_tourism_3465591_ybght9.svg";
 
 const Container = styled.section`
-  background-color: #fff;
+  background-color: #eee;
   border-radius: 30px;
   grid-column: 1 / span 5;
   grid-row: 1 / span 2;
@@ -18,15 +16,19 @@ const Container = styled.section`
 `;
 
 const Box = styled.div`
-  width: 200px;
-  height: 150px;
+  width: 180px;
+  height: 100%;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   position: absolute;
-  top: 50px;
-  left: 80px;
+  top: 0;
+  left: 120px;
+  padding-top: 100px;
+  background-color: rgba(222, 230, 244, 0.7);
+  color: #253237;
 `;
 
 const City = styled.div`
@@ -44,11 +46,11 @@ const IconLoc = styled.i`
   width: 30px;
   height: 30px;
   display: flex;
-  color: #0270c2;
   align-items: center;
   justify-content: center;
   grid-row: 1;
   grid-column: 1;
+  color: #0270c2;
 `;
 
 const Wrapper = styled.div`
@@ -60,12 +62,12 @@ const Wrapper = styled.div`
 `;
 
 const Text = styled.div`
-  color: #000;
   font-weight: 500;
   grid-row: 1;
   grid-column: 2;
   display: flex;
   align-items: center;
+  text-shadow: rgba(200, 200, 200, 0.5) 0 0 3px;
 `;
 
 const Flag = styled.img`
@@ -78,12 +80,13 @@ const Flag = styled.img`
 const Map = styled.div`
   width: 50px;
   height: 50px;
+  margin-top: 40px;
 `;
 
 class Today extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = { myCover: null };
   }
 
   componentDidMount() {
@@ -103,8 +106,21 @@ class Today extends React.Component {
               .getElementById("myFlag")
               .setAttribute(
                 "src",
-                "https://www.countryflags.io/au/flat/64.png"
+                "https://www.countryflags.io/" +
+                  data.sys.country +
+                  "/flat/64.png"
               );
+            getImageByCity(data.name).then((imgData) => {
+              const image =
+                imgData.results[Math.floor(Math.random() * 5)].urls.regular;
+              this.setState({
+                myCover: {
+                  background: `url(${image})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                },
+              });
+            });
           });
         });
       }
@@ -113,13 +129,7 @@ class Today extends React.Component {
 
   render() {
     return (
-      <Container
-        style={{
-          background: `url(${back})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
+      <Container style={this.state.myCover}>
         <Box>
           <City>
             <IconLoc className="fas fa-map-marker-alt" />

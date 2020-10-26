@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 import getDataByGeo from "../../../apis/getDataByGeo";
+import weatherIcon from "../../../apis/weatherIcon";
 
 const dark = "#0270c2";
 const light = "#1fa1f1";
@@ -103,6 +104,7 @@ class Clip extends React.Component {
             document.getElementById("myTemp").innerHTML = Math.round(
               Number(data.main.temp) - 273.15
             );
+            this.setState({ icon: weatherIcon.get(data.weather[0].main) });
           });
         });
       }
@@ -115,7 +117,7 @@ class Clip extends React.Component {
         <Side1 />
         <Box>
           <Weather>
-            <Icon src="https://res.cloudinary.com/dr99oorie/image/upload/v1603428277/weather-app%20assets/iconfinder_weather-02_1530391_lqsvis.svg" />
+            <Icon src={this.state.icon} />
             <Text id="myWeather" />
           </Weather>
           <Temp>

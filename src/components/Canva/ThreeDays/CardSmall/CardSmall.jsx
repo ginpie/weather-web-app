@@ -34,7 +34,7 @@ const Weather = styled.p`
 `;
 
 const Temp = styled.div`
-  width: 40%;
+  width: 35%;
   height: 105%;
 
   border-radius: 20px;

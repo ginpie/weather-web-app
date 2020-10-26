@@ -17,7 +17,7 @@ const City = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   margin: 20px 20px;
   text-shadow: rgba(10, 10, 10, 1) 1px 1px 5px;
 `;
@@ -36,7 +36,7 @@ const IconLoc = styled.i`
 const Text = styled.p`
   font-size: 15px;
   font-weight: 600;
-  margin: 0;
+  margin: 0 0 0 10px;
   color: #fff;
 `;
 
