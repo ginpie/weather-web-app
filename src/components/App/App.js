@@ -6,7 +6,7 @@ import Homepage from "../Homepage";
 
 const App = () => {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/weather-web-app">
       <Switch>
         <Route exact path="/" component={Homepage} />
       </Switch>
