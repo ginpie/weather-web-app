@@ -26,12 +26,12 @@ const Container = styled.div`
   padding: 40px;
   position: relative;
   overflow: hidden;
+  box-shadow: rgba(10, 10, 10, 0.5) 0 100px 65px 0;
 `;
 
 function HomePage() {
   return (
     <Background>
-      <SearchBar />
       <Container>
         <Clip />
         <Canva />
