@@ -2,8 +2,8 @@ import React from "react";
 import styled from "styled-components";
 
 import CardPlace from "./CardPlace";
-import { placeData } from "./placeData";
 import getPlaceByGeo from "../../../apis/getPlaceByGeo";
+import getImageByCity from "../../../apis/getImageByCity";
 
 const Container = styled.section`
   background-color: #fff;
@@ -28,10 +28,18 @@ const Body = styled.div`
   gap: 10px;
 `;
 
+const CardBox = styled.div`
+  width: 100%;
+  height: 100%;
+`;
+
 class PlaceToVisit extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { myPlaces: [] };
+    this.state = {
+      myPlaces: [],
+      myPhotos: [],
+    };
   }
 
   componentDidMount() {
@@ -45,12 +53,27 @@ class PlaceToVisit extends React.Component {
           lat = position.coords.latitude;
 
           getPlaceByGeo(long, lat).then((data) => {
-            let a = [];
+            let places = [];
             const temp = data.features;
             temp.slice(Math.max(temp.length - 3, 0)).forEach((i) => {
-              a.push(i.properties.name);
+              places.push(i.properties.name);
             });
-            this.setState({ myPlaces: a });
+            this.setState({ myPlaces: places });
+
+            // get photos of places
+            let photos = [];
+            places.forEach((i, e) => {
+              getImageByCity(i).then((img) => {
+                const a = img.results[0].urls.regular;
+                const style = {
+                  backgroundImage: `url(${a})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                };
+                photos.push(style);
+                this.setState({ myPhotos: photos });
+              });
+            });
           });
         });
       }
@@ -64,16 +87,24 @@ class PlaceToVisit extends React.Component {
           <b>Place to</b> Visit
         </Title>
         <Body>
-          {this.state.myPlaces.map((i, e) => {
-            return (
-              <CardPlace
-                bg={placeData[e].bg}
-                text={i}
-                grid={placeData[e].grid}
-                key={e}
-              />
-            );
-          })}
+          <CardBox style={{ gridArea: "1 / 1 / span 2 / 1" }}>
+            <CardPlace
+              style={this.state.myPhotos[0]}
+              text={this.state.myPlaces[0]}
+            />
+          </CardBox>
+          <CardBox style={{ gridArea: "1 / 2 / 1 / 2" }}>
+            <CardPlace
+              style={this.state.myPhotos[1]}
+              text={this.state.myPlaces[1]}
+            />
+          </CardBox>
+          <CardBox style={{ gridArea: "2 / 2 / 2 / 2" }}>
+            <CardPlace
+              style={this.state.myPhotos[2]}
+              text={this.state.myPlaces[2]}
+            />
+          </CardBox>
         </Body>
       </Container>
     );

@@ -5,26 +5,24 @@ import CardMedium from "./CardMedium";
 import { otherData } from "./otherData";
 import getWeatherByCity from "../../../apis/getWeatherByCity";
 import weatherIcon from "../../../apis/weatherIcon";
+import { getCountryName } from "./isoCountries";
 
 const Container = styled.section`
   width: 100%;
-  border-radius: 30px;
-  overflow-wrap: auto;
   grid-area: 2 / 4 / span 3 / span 1;
   align-self: end;
   z-index: 100;
-  max-height: 500px;
-  overflow: auto;
+  max-height: 700px;
+  overflow: visible;
 
-  -webkit-mask-image: -webkit-gradient(
+  /* -webkit-mask-image: -webkit-gradient(
     linear,
     left top,
     left bottom,
-    color-stop(0, rgba(0, 0, 0, 0)),
-    color-stop(0.1, rgba(0, 0, 0, 1)),
+    color-stop(0, rgba(0, 0, 0, 1)),
     color-stop(0.9, rgba(0, 0, 0, 1)),
     color-stop(1, rgba(0, 0, 0, 0))
-  );
+  ); */
 `;
 
 class Others extends React.Component {
@@ -57,7 +55,7 @@ class Others extends React.Component {
               speed={i.wind.speed}
               temp={Math.round(i.main.temp - 273.15)}
               city={i.name}
-              country={i.sys.country}
+              country={getCountryName(i.sys.country)}
               key={e}
             />
           );

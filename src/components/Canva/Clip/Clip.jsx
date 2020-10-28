@@ -46,15 +46,12 @@ const Text = styled.p`
 `;
 
 const TempText = styled.p`
-  width: 120px;
-  height: 95px;
-  font-size: 30px;
+  font-size: 50px;
   color: #fff;
   margin: 0;
   font-family: "Oswald", sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  font-weight: 600;
+  text-align: center;
 
   &::after {
     content: "°C";
@@ -64,8 +61,12 @@ const TempText = styled.p`
 `;
 
 const Temp = styled.div`
-  width: 80px;
-  height: 80px;
+  width: 120px;
+  height: 95px;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const Side1 = styled.div`

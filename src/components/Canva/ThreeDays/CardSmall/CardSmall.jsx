@@ -6,7 +6,7 @@ const Container = styled.div`
   height: 80px;
   background-color: #fff;
   border-radius: 20px;
-  box-shadow: rgba(70, 70, 70, 0.2) 5px 5px 15px 0;
+  box-shadow: rgba(70, 70, 70, 0.2) 0 15px 35px 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -36,7 +36,7 @@ const Weather = styled.p`
 const Temp = styled.div`
   width: 35%;
   height: 105%;
-
+  font-weight: 700;
   border-radius: 20px;
   display: flex;
   align-items: center;
@@ -44,14 +44,14 @@ const Temp = styled.div`
   font-size: 16px;
 `;
 
-const CardSmall = ({ icon, date, weather, tempMax, tempMin, bg }) => (
+const CardSmall = ({ icon, date, weather, tempMax, tempMin, bg, fcolor }) => (
   <Container>
     <Icon src={icon} />
     <TextBox>
       <Date>{date}</Date>
       <Weather>{weather}</Weather>
     </TextBox>
-    <Temp style={{ background: bg }}>
+    <Temp style={{ background: bg, color: fcolor }}>
       {tempMax}° / {tempMin}°
     </Temp>
   </Container>

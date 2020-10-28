@@ -7,7 +7,7 @@ const Container = styled.div`
   margin-top: 20px;
   background-color: #fff;
   border-radius: 20px;
-  box-shadow: rgba(70, 70, 70, 0.2) 5px 5px 15px 0;
+  box-shadow: rgba(70, 70, 70, 0.2) 0 15px 55px 0;
   display: grid;
   align-items: center;
   grid-template-columns: repeat(3, 33%);
@@ -40,13 +40,14 @@ const TextBox = styled.div`
 
 const Temp = styled.div`
   font-family: "Oswald", sans-serif;
+  font-weight: 600;
   width: 45%;
   padding-right: 10px;
   border-radius: 20px;
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  font-size: 40px;
+  font-size: 45px;
 
   &::after {
     content: "°C";
@@ -64,13 +65,13 @@ const CityBox = styled.div`
 `;
 
 const City = styled.p`
-  font-size: 15px;
-  font-weight: 600;
+  font-size: 16px;
+  font-weight: 700;
   margin: 0;
 `;
 
 const Country = styled.p`
-  font-size: 14px;
+  font-size: 13px;
   margin: 0;
   color: #555;
 `;
@@ -78,7 +79,7 @@ const Country = styled.p`
 const WindBox = styled.div`
   width: 80%;
   height: 30%;
-  color: #aaa;
+  color: #666;
   font-size: 15px;
   display: flex;
   align-items: center;
@@ -97,7 +98,7 @@ const VerticalDivider = styled.div`
 
 const VerticalDividerL = styled.div`
   width: 1px;
-  height: 50px;
+  height: 40px;
   background: #aaa;
 `;
 

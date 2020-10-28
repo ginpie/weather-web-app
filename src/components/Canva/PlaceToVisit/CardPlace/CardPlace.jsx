@@ -40,15 +40,8 @@ const Text = styled.p`
   color: #fff;
 `;
 
-const CardPlace = ({ bg, text, grid }) => (
-  <Container
-    style={{
-      backgroundImage: `url(${bg})`,
-      backgroundSize: "cover",
-      backgroundPosition: "center",
-      gridArea: grid,
-    }}
-  >
+const CardPlace = ({ text, style }) => (
+  <Container style={style}>
     <City>
       <IconLoc className="fas fa-map-marker-alt" />
       <Text>{text}</Text>

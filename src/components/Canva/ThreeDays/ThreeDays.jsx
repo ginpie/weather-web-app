@@ -16,7 +16,6 @@ const Container = styled.section`
 const Title = styled.h3`
   font-weight: 500;
   font-size: 22px;
-  text-align: center;
 `;
 
 const Body = styled.div``;
@@ -65,6 +64,7 @@ class ThreeDays extends React.Component {
                 tempMax={Math.round(i.temp.max - 273.15)}
                 tempMin={Math.round(i.temp.min - 273.15)}
                 bg={e === 0 ? "#0aa9ee" : "#dee6f4"}
+                fcolor={e === 0 ? "#fff" : "#000"}
                 key={e}
               />
             );
