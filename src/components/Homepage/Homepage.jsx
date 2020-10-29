@@ -3,7 +3,6 @@ import styled from "styled-components";
 
 import Canva from "../Canva";
 import Clip from "../Canva/Clip";
-import SearchBar from "../SearchBar";
 
 const Background = styled.div`
   width: 100vw;
