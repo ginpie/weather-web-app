@@ -1,16 +1,17 @@
 import React from "react";
 import styled from "styled-components";
 
-const Container = styled.div`
+const Container = styled.a`
   width: 100%;
   height: 100%;
   background-color: #fff;
   border-radius: 20px;
-  box-shadow: rgba(70, 70, 70, 0.1) 5px 25px 35px 0;
+  box-shadow: rgba(70, 70, 70, 0.3) 5px 25px 35px 0;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   margin-bottom: 20px;
+  text-decoration: none;
 `;
 
 const City = styled.div`
@@ -40,8 +41,8 @@ const Text = styled.p`
   color: #fff;
 `;
 
-const CardPlace = ({ text, style }) => (
-  <Container style={style}>
+const CardPlace = ({ text, style, href }) => (
+  <Container style={style} href={href} target="_blank">
     <City>
       <IconLoc className="fas fa-map-marker-alt" />
       <Text>{text}</Text>

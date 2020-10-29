@@ -2,10 +2,6 @@ import React from "react";
 import styled from "styled-components";
 
 import getDataByGeo from "../../../apis/getDataByGeo";
-import getImageByCity from "../../../apis/getImageByCity";
-
-const map =
-  "https://res.cloudinary.com/dr99oorie/image/upload/v1603434915/weather-app%20assets/iconfinder_opera_house_sydney_house_australia_architecture_landmark_travel_building_tourism_3465591_ybght9.svg";
 
 const Container = styled.section`
   background-color: #eee;
@@ -27,7 +23,7 @@ const Box = styled.div`
   top: 0;
   left: 120px;
   padding-top: 100px;
-  background-color: rgba(222, 230, 244, 0.7);
+  background-color: rgba(222, 230, 244, 0.6);
   color: #253237;
 `;
 
@@ -38,7 +34,7 @@ const City = styled.div`
 `;
 
 const Area = styled.p`
-  font-size: 12px;
+  font-size: 13px;
   margin: 0 6px 0 0;
 `;
 
@@ -62,7 +58,8 @@ const Wrapper = styled.div`
 `;
 
 const Text = styled.div`
-  font-weight: 500;
+  font-weight: 600;
+  font-size: 22px;
   grid-row: 1;
   grid-column: 2;
   display: flex;
@@ -77,16 +74,40 @@ const Flag = styled.img`
   align-self: top;
 `;
 
-const Map = styled.div`
-  width: 50px;
-  height: 50px;
-  margin-top: 40px;
+const Details = styled.div`
+  width: 80px;
+  margin-top: 30px;
+  display: flex;
+  justify-content: flex-start;
+  position: relative;
+`;
+
+const Img = styled.img`
+  width: 100%;
+  z-index: 2;
+`;
+
+const Bar = styled.div`
+  width: 4px;
+  background-color: #0aa9ee;
+  position: absolute;
+  bottom: 10px;
+  left: 38px;
+`;
+const Circle = styled.div`
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: #0aa9ee;
+  position: absolute;
+  bottom: 7px;
+  left: 32px;
 `;
 
 class Today extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { myCover: null };
+    this.state = { myCover: null, details: null, feelTemp: null, color: null };
   }
 
   componentDidMount() {
@@ -110,16 +131,63 @@ class Today extends React.Component {
                   data.sys.country +
                   "/flat/64.png"
               );
-            getImageByCity(data.name).then((imgData) => {
-              const image =
-                imgData.results[Math.floor(Math.random() * 5)].urls.regular;
-              this.setState({
-                myCover: {
-                  background: `url(${image})`,
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                },
-              });
+
+            let cover;
+            if (data.weather[0].main === "rain") {
+              cover =
+                "https://res.cloudinary.com/dr99oorie/image/upload/v1603993041/weather-app%20assets/rain_hxwdjs.jpg";
+            } else {
+              const hours = new Date().getHours();
+              const sunrise = new Date(data.sys.sunrise * 1000).getHours();
+              const sunset = new Date(data.sys.sunset * 1000).getHours();
+              console.log(hours, sunrise, sunset);
+              if (hours > sunset || hours < sunrise) {
+                cover =
+                  "https://res.cloudinary.com/dr99oorie/image/upload/v1603993040/weather-app%20assets/night_d5cfjg.jpg";
+              }
+              if (hours === sunrise) {
+                cover =
+                  "https://res.cloudinary.com/dr99oorie/image/upload/v1603993039/weather-app%20assets/glow_uzswt5.jpg";
+              }
+              if (hours === sunset) {
+                cover =
+                  "https://res.cloudinary.com/dr99oorie/image/upload/v1603993041/weather-app%20assets/dusk_lnh7x2.jpg";
+              }
+              if (hours > sunrise && hours < sunset) {
+                cover =
+                  "https://res.cloudinary.com/dr99oorie/image/upload/v1603993040/weather-app%20assets/clear_ts3sqg.jpg";
+              }
+            }
+            const feelTemp = Math.max(
+              0.8 * (data.main.feels_like - 273.15) + 25,
+              0
+            );
+
+            let color;
+            if (data.main.feels_like < 10) {
+              color = "#0aa9ee";
+            }
+            if (data.main.feels_like >= 10 && data.main.feels_like < 30) {
+              color = "#ff7e0f";
+            }
+            if (data.main.feels_like < 10) {
+              color = "#cf0404";
+            }
+
+            this.setState({
+              myCover: {
+                background: `url(${cover})`,
+                backgroundSize: "cover",
+                backgroundPosition: "bottom",
+              },
+              details: data.weather[0].description,
+              feelTemp: {
+                height: `${feelTemp}px`,
+                backgroundColor: color,
+              },
+              color: {
+                backgroundColor: color,
+              },
             });
           });
         });
@@ -140,13 +208,11 @@ class Today extends React.Component {
             </Wrapper>
           </City>
 
-          <Map
-            style={{
-              background: `url(${map})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-            }}
-          />
+          <Details>
+            <Img src="https://res.cloudinary.com/dr99oorie/image/upload/v1603996481/weather-app%20assets/thermometer_nyomza.png" />
+            <Bar style={this.state.feelTemp} />
+            <Circle style={this.state.color} />
+          </Details>
         </Box>
       </Container>
     );

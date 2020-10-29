@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 
 import getDataByGeo from "../../../apis/getDataByGeo";
-import weatherIcon from "../../../apis/weatherIcon";
 
 const dark = "#0270c2";
 const light = "#1fa1f1";
@@ -99,13 +98,19 @@ class Clip extends React.Component {
           long = position.coords.longitude;
           lat = position.coords.latitude;
 
+          let weather;
+          let temp;
           getDataByGeo(long, lat).then((data) => {
-            document.getElementById("myWeather").innerHTML =
-              data.weather[0].main;
-            document.getElementById("myTemp").innerHTML = Math.round(
-              Number(data.main.temp) - 273.15
-            );
-            this.setState({ icon: weatherIcon.get(data.weather[0].main) });
+            weather = data.weather[0].description;
+            temp = Math.round(Number(data.main.temp) - 273.15);
+            this.setState({
+              icon:
+                "http://openweathermap.org/img/wn/" +
+                data.weather[0].icon +
+                "@2x.png",
+              weather: weather,
+              temp: temp,
+            });
           });
         });
       }
@@ -119,10 +124,10 @@ class Clip extends React.Component {
         <Box>
           <Weather>
             <Icon src={this.state.icon} />
-            <Text id="myWeather" />
+            <Text>{this.state.weather}</Text>
           </Weather>
           <Temp>
-            <TempText id="myTemp" />
+            <TempText>{this.state.temp}</TempText>
           </Temp>
         </Box>
         <Side2 />

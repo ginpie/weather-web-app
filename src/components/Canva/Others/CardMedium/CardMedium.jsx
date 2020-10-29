@@ -104,7 +104,7 @@ const VerticalDividerL = styled.div`
 
 const CardMedium = ({ icon, hum, wind, speed, temp, city, country }) => {
   let windDirection;
-  if (wind >= 338 && wind <= 22) {
+  if (wind >= 338 || wind <= 22) {
     windDirection = "North";
   }
   if (wind >= 23 && wind <= 67) {

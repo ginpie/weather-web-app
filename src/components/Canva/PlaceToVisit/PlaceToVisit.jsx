@@ -91,18 +91,30 @@ class PlaceToVisit extends React.Component {
             <CardPlace
               style={this.state.myPhotos[0]}
               text={this.state.myPlaces[0]}
+              href={
+                "https://www.google.com/search?safe=active&q=" +
+                this.state.myPlaces[0]
+              }
             />
           </CardBox>
           <CardBox style={{ gridArea: "1 / 2 / 1 / 2" }}>
             <CardPlace
               style={this.state.myPhotos[1]}
               text={this.state.myPlaces[1]}
+              href={
+                "https://www.google.com/search?safe=active&q=" +
+                this.state.myPlaces[1]
+              }
             />
           </CardBox>
           <CardBox style={{ gridArea: "2 / 2 / 2 / 2" }}>
             <CardPlace
               style={this.state.myPhotos[2]}
               text={this.state.myPlaces[2]}
+              href={
+                "https://www.google.com/search?safe=active&q=" +
+                this.state.myPlaces[2]
+              }
             />
           </CardBox>
         </Body>

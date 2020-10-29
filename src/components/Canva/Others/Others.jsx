@@ -4,7 +4,6 @@ import styled from "styled-components";
 import CardMedium from "./CardMedium";
 import { otherData } from "./otherData";
 import getWeatherByCity from "../../../apis/getWeatherByCity";
-import weatherIcon from "../../../apis/weatherIcon";
 import { getCountryName } from "./isoCountries";
 
 const Container = styled.section`
@@ -49,7 +48,11 @@ class Others extends React.Component {
         {this.state.myPlaces.map((i, e) => {
           return (
             <CardMedium
-              icon={weatherIcon.get(i.weather[0].main)}
+              icon={
+                "http://openweathermap.org/img/wn/" +
+                i.weather[0].icon +
+                "@2x.png"
+              }
               hum={i.main.humidity}
               wind={i.wind.deg}
               speed={i.wind.speed}

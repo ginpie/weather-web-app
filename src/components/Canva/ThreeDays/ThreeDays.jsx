@@ -58,7 +58,11 @@ class ThreeDays extends React.Component {
           {this.state.days.map((i, e) => {
             return (
               <CardSmall
-                icon={weatherIcon.get(i.weather[0].main)}
+                icon={
+                  "http://openweathermap.org/img/wn/" +
+                  i.weather[0].icon +
+                  "@2x.png"
+                }
                 date={i.localdt}
                 weather={i.weather[0].main}
                 tempMax={Math.round(i.temp.max - 273.15)}
