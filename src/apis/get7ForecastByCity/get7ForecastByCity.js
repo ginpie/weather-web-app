@@ -9,9 +9,13 @@ const instance = axios.create({
 
 async function get7ForecastByCity(city) {
   let a;
-  await getWeatherByCity(city).then((res) => {
-    a = res.coord;
-  });
+
+  await getWeatherByCity(city)
+    .then((res) => {
+      a = res.coord;
+    })
+    .catch((err) => console.log(err));
+
   return instance
     .get("", {
       params: {
