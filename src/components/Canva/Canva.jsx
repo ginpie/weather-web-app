@@ -15,13 +15,17 @@ const Container = styled.div`
   grid-template-rows: repeat(4, 23%);
 `;
 
-const Canva = () => (
-  <Container>
-    <Today />
-    <ThreeDays />
-    <PlaceToVisit />
-    <Others />
-  </Container>
-);
+class Canva extends React.Component {
+  render() {
+    return (
+      <Container>
+        <Today />
+        <ThreeDays />
+        <PlaceToVisit />
+        <Others />
+      </Container>
+    );
+  }
+}
 
 export default Canva;
