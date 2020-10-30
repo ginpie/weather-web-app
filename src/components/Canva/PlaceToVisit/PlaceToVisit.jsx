@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import CardPlace from "./CardPlace";
 import getPlaceByGeo from "../../../apis/getPlaceByGeo";
-import getImageByCity from "../../../apis/getImageByCity";
+import ImageSearch from "../../../apis/RapidAPI/ImageSearch";
 
 const Container = styled.section`
   background-color: #fff;
@@ -62,17 +62,19 @@ class PlaceToVisit extends React.Component {
 
             // get photos of places
             let photos = [];
-            places.forEach((i, e) => {
-              getImageByCity(i).then((img) => {
-                const a = img.results[0].urls.regular;
+            places.forEach(async (i, e) => {
+              let img = await ImageSearch(i);
+              if (img) {
+                const image = img.value[0].url;
                 const style = {
-                  backgroundImage: `url(${a})`,
+                  backgroundImage: `url(${image})`,
                   backgroundSize: "cover",
                   backgroundPosition: "center",
                 };
                 photos.push(style);
+
                 this.setState({ myPhotos: photos });
-              });
+              }
             });
           });
         });

@@ -35,10 +35,12 @@ class Others extends React.Component {
   componentDidMount() {
     const tempData = [];
     otherData.forEach((i) => {
-      getWeatherByCity(i.city).then((data) => {
-        tempData.push(data);
-        this.setState({ myPlaces: tempData });
-      });
+      getWeatherByCity(i.city)
+        .then((data) => {
+          tempData.push(data);
+          this.setState({ myPlaces: tempData });
+        })
+        .catch((err) => console.log(err));
     });
   }
 
@@ -47,20 +49,24 @@ class Others extends React.Component {
       <Container>
         {this.state.myPlaces.map((i, e) => {
           return (
-            <CardMedium
-              icon={
-                "http://openweathermap.org/img/wn/" +
-                i.weather[0].icon +
-                "@2x.png"
-              }
-              hum={i.main.humidity}
-              wind={i.wind.deg}
-              speed={i.wind.speed}
-              temp={Math.round(i.main.temp - 273.15)}
-              city={i.name}
-              country={getCountryName(i.sys.country)}
-              key={e}
-            />
+            <>
+              {i && (
+                <CardMedium
+                  icon={
+                    "http://openweathermap.org/img/wn/" +
+                    i.weather[0].icon +
+                    "@2x.png"
+                  }
+                  hum={i.main.humidity}
+                  wind={i.wind.deg}
+                  speed={i.wind.speed}
+                  temp={Math.round(i.main.temp - 273.15)}
+                  city={i.name}
+                  country={getCountryName(i.sys.country)}
+                  key={e}
+                />
+              )}
+            </>
           );
         })}
       </Container>

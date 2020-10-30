@@ -3,7 +3,6 @@ import styled from "styled-components";
 
 import CardSmall from "./CardSmall";
 import get7ForecastByCity from "../../../apis/get7ForecastByCity";
-import weatherIcon from "../../../apis/weatherIcon";
 
 const Container = styled.section`
   background-color: #fff;
@@ -29,23 +28,25 @@ class ThreeDays extends React.Component {
   }
 
   componentDidMount() {
-    get7ForecastByCity("los angeles").then((data) => {
-      const tempDays = [data.daily[0], data.daily[1], data.daily[2]];
+    get7ForecastByCity("los angeles")
+      .then((data) => {
+        const tempDays = [data.daily[0], data.daily[1], data.daily[2]];
 
-      tempDays.forEach((i) => {
-        // convert unix utc dt to local date
-        const date = new Date(i.dt * 1e3);
-        const options = { weekday: "long" };
-        const localdate = new Intl.DateTimeFormat("en-US", options).format(
-          date
-        );
-        i.localdt = localdate;
-        // get icon by weather
-      });
-      this.setState({
-        days: tempDays,
-      });
-    });
+        tempDays.forEach((i) => {
+          // convert unix utc dt to local date
+          const date = new Date(i.dt * 1e3);
+          const options = { weekday: "long" };
+          const localdate = new Intl.DateTimeFormat("en-US", options).format(
+            date
+          );
+          i.localdt = localdate;
+          // get icon by weather
+        });
+        this.setState({
+          days: tempDays,
+        });
+      })
+      .catch((e) => {});
   }
 
   render() {

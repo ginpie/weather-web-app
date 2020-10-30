@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 
 import Canva from "../Canva";
-import Clip from "../Canva/Clip";
 
 const Background = styled.div`
   width: 100vw;
@@ -32,7 +31,6 @@ function HomePage() {
   return (
     <Background>
       <Container>
-        <Clip />
         <Canva />
       </Container>
     </Background>
