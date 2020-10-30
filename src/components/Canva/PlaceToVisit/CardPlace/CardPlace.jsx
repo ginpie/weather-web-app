@@ -12,6 +12,20 @@ const Container = styled.a`
   align-items: flex-start;
   margin-bottom: 20px;
   text-decoration: none;
+  &:hover {
+    animation: pop 150ms both ease-in;
+  }
+
+  @keyframes pop {
+    0% {
+    }
+    70% {
+      transform: translate(3px, 4px) scale(0.95, 0.95);
+    }
+    100% {
+      transform: translate(0, 0) scale(1, 1);
+    }
+  }
 `;
 
 const City = styled.div`
